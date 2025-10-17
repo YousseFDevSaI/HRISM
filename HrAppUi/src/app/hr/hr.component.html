@@ -1,0 +1,263 @@
+<style>
+  .loader {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 2s linear infinite;
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+      0% {
+          -webkit-transform: rotate(0deg);
+      }
+      100% {
+          -webkit-transform: rotate(360deg);
+      }
+  }
+
+  @keyframes spin {
+      0% {
+          transform: rotate(0deg);
+      }
+      100% {
+          transform: rotate(360deg);
+      }
+  }
+</style>
+<!-- Sidebar -->
+<section *ngIf="!IsLoading">
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="position: fixed">
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center">
+          <img src="./assets/images/sidebarlogo.png" />
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0" />
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active" style="position: relative">
+          <button class="nav-link btn" style="position: sticky; top: 0" *ngFor="let file of this.names" (click)="readFilesLines(file); this.beingViewedFile = file; this.getFileApprovals()">
+              <i>📁</i>
+              <span>{{file}}</span>
+
+
+          </button>
+      </li>
+  </ul>
+
+  <!-- End of Sidebar -->
+  <div id="wrapper" style="position: relative; margin-left: 225px">
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+          <!-- Main Content -->
+          <div id="content">
+              <!-- Topbar -->
+              <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                  <!-- Topbar Navbar -->
+                  <ul class="navbar-nav ml-auto">
+                      <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                      <li class="nav-item dropdown no-arrow d-sm-none">
+                          <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-search fa-fw"></i>
+                          </a>
+                          <!-- Dropdown - Messages -->
+                          <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                              <div class="input-group">
+                                  <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" [value]="searchData" />
+                                  <div class="input-group-append">
+                                      <button class="btn btn-primary" type="button">
+                                          <i class="fas fa-search fa-sm"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+
+
+
+
+                      <div class="topbar-divider d-none d-sm-block"></div>
+
+                      <!-- Dropdown - User Information -->
+                      <li class="nav-item dropdown no-arrow">
+                          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Logout</span>
+                          </a>
+                          <!-- Dropdown - User Information -->
+                          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+
+                              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" (click)="logout()" >
+                                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                  Logout
+                              </a>
+                          </div>
+                      </li>
+                  </ul>
+              </nav>
+              <!-- End of Topbar -->
+
+              <!-- Begin Page Content -->
+              <div class="container-fluid">
+                  <section id="1">
+                      <!--Student Dashboard-->
+                      <div>
+                          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                              <h1 class="h3 mb-0 text-gray-800">Monthly Payments</h1>
+                              <span class="text"></span>
+                              <span class="text"></span>
+                              <span class="text"></span>
+                              <span class="text"></span>
+                          </div>
+                          <div class="row">
+
+                              <!--Card 2-->
+                              <div class="col-xl-6 col-md-6 mb-4">
+                                  <div class="card border-left-warning shadow h-100 py-2">
+                                      <div class="card-body">
+                                          <div class="row no-gutters align-items-center">
+                                              <div class="col mr-2">
+                                                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Transactions</div>
+                                                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{this.liness.length? this.liness.length:0}}</div>
+
+                                              </div>
+                                              <div class="col-auto">
+                                                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                              </div>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-xl-6 col-md-6 mb-4">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Approvals</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" *ngFor="let approval of approvals">{{approval}}</div>
+
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="col-auto">
+                                <input type="file" (change)="onFileSelected($event)" >
+                                <button class="btn btn-primary" (click)="onUpload()" >Upload File</button>
+                            </div>
+                              <!--End Card 2-->
+                          </div>
+                          <!--Document Request Table-->
+                          <!-- Requests Table Dashboard-->
+                          <h3 class="title-5 m-b-35">Transactions</h3>
+                          <div class="table-responsive table-responsive-data2">
+                              <div style="max-height: 400px; overflow-y: auto">
+                                <div >
+                                <span>GL Account 2: </span>
+                                <select name="Status" id="Status" [(ngModel)]="glAcc" >
+                                  <option *ngFor="let account of chartOfAccounts.Accounts" [value]=account.id >{{account.displayName}} | Account Number: {{account.number}}</option>
+                                </select>
+                                <button style="margin: 45px;" class="btn btn-secondary">Submit</button>
+                              </div>
+
+
+                                  <table class="table table-data2">
+                                      <thead>
+                                          <tr>
+                                            <!-- add ng for -->
+                                              <th>Select</th>
+                                              <th>Transaction ID</th>
+                                              <th *ngFor="let dimension of this.dimensions.dimesnsion">{{dimension.column}}</th>
+
+                                              <th></th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <ng-container >
+                                            <!-- *ngFor="let request of documentRequests.slice().reverse(); let i = index"   add ng for -->
+                                              <tr class="tr-shadow" *ngFor="let line of this.liness">
+                                                <!-- *ngIf="i < 5" add this to tr later -->
+                                                <td><input type="checkbox" (change)="captureCheckboxValue(line.id)">
+                                                </td>
+                                                <td>{{line.id}}</td>
+                                                  <td *ngFor="let dimRow of this.dimensions.dimesnsion">{{line[dimRow.row]}}</td>
+                                                  <td>
+
+                                                    <div class="table-data-feature">
+                                                        <button class="item"data-toggle="modal" data-target="#detailsModal">
+                                                            <img src="../../assets/images/eye-icon.png" width="75%" height="75%" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                              </tr>
+                                          </ng-container>
+                                          <tr class="spacer"></tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                          <button class="btn btn-primary" (click)="approveFile(this.beingViewedFile, this.userEmail)" >Approve File</button>
+                          <!-- END Requests Table -->
+
+                          <!-- Details Modal -->
+                        <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header" style="background-color: #36b9cc; color: white">
+                                      <h5 class="modal-title" id="detailsModalLabel">Details</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                      </button>
+                                  </div>
+                                  <form>
+                                      <div class="modal-body">
+                                          <ul style="list-style: none; padding: 0">
+                                              <li><strong>Name:</strong> ex</li>
+                                              <li><strong>ID:</strong> ex</li>
+                                              <li><strong>Date of Birth:</strong> ex</li>
+                                              <li><strong>Email:</strong> ex</li>
+                                              <li><strong>Intake:</strong> ex</li>
+                                              <li><strong>Document Type:</strong> ex</li>
+                                              <li><strong>Quantity:</strong> ex</li>
+                                              <li><strong>Language:</strong> ex</li>
+
+
+                                          </ul>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-primary"   data-dismiss="modal">Save</button>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+
+                      </div>
+                      <!--End Student Dashboard-->
+                  </section>
+
+
+
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+<section *ngIf="IsLoading" style="padding-left: 700px; padding-top: 300px; width: 120px; height: 120px">
+  <div class="loader"></div>
+</section>
